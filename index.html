@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>App - Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset=”utf-8″> i
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+
+  <!-- Reference to the Bing Maps SDK -->
+  <script type='text/javascript'
+    src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AoLtiglXAJI1GRimSW4I_B7kUg8d9egqcAwEQ7CzhmM8UvHD4g70PmX4diwHeeWD'
+    async defer></script>
+
+  <script type='text/javascript'>
+    function GetMap() {
+      var map = new Microsoft.Maps.Map('#myMap');
+
+      //Request the user's location
+
+      var loc = new Microsoft.Maps.Location(
+        50.0561145, 19.956245
+      );
+
+      //Add a pushpin at the user's location.
+      var pin = new Microsoft.Maps.Pushpin(loc, {
+        title: 'Regionalne Centrum Krwiodawstwa i...',
+        subTitle: '',
+        text: '1'
+      });
+      map.entities.push(pin);
+
+      //Center the map on the user's location.
+      map.setView({ center: loc, zoom: 15 });
+
+      Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+            //Generate some routes.
+            getRoute('Tauron Arena Kraków, Czyżyny, Poland', 'Regionalne Centrum Krwiodawstwa i Krwiolecznictwa w Krakowie OFC, Ul. Rzeznicza 11, Cracow, Poland', 'red');
+        });
+
+        function getRoute(start, end, color) {
+        var dm = new Microsoft.Maps.Directions.DirectionsManager(map);
+        directionsManagers.push(dm);
+
+        dm.setRequestOptions({
+            routeMode: Microsoft.Maps.Directions.RouteMode.driving
+        });
+
+        dm.setRenderOptions({
+            autoUpdateMapView: false,
+            drivingPolylineOptions: {
+                strokeColor: color,
+                strokeThickness: 3
+            }
+        });
+
+        dm.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: start }));
+        dm.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: end }));
+
+        dm.calculateDirections();
+    }
+
+    }
+  </script>
+
+</head>
+
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">RCKiK, ul. Rzeźnicza 11</br>Kraków</a>
+
+      <button class="navbar-toggler" style="margin-right:5px !important;" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse top_nav" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto ">
+          <li class="nav-item "><a href="https://rckik.krakow.pl" class="nav-link">Regionalne Centrum Krwiodawstwa</br> i
+              Krwiolecznictwa w Krakowie</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+
+      <div id="myMap" style='position:relative;width:100%;min-height: 400px;'></div>
+
+    </div>
+    <div class="row">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Pokaż trasę">
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="button">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+
+
+</html>
